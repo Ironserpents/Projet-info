@@ -55,7 +55,9 @@ def update_p(letter, p):
       p["x"] = p["x"] + 1
   elif letter == "d":
       p["y"] = p["y"]+ 1
+  elif letter =="r":
+      print("Vous avez arrêté le jeu.")
   else:
-      raise ValueError("La lettre {} n'est pas valide.".format(letter))
+      print("La lettre {} n'est pas valide.".format(letter))
 
 display_map_and_char(6,6,(1,1))
