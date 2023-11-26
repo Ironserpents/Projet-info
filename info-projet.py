@@ -46,18 +46,34 @@ def display_map_and_char(l,la,perso):
     
 dico={0:' ',1:'#', 2:'B',3:'X'}
 
-def update_p(letter, p):
-  if letter == "z":
-      p["x"] = p["x"] - 1
-  elif letter == "q":
-      p["y"] = p["y"]- 1
-  elif letter == "s":
-      p["x"] = p["x"] + 1
-  elif letter == "d":
-      p["y"] = p["y"]+ 1
-  elif letter =="r":
-      print("Vous avez arrêté le jeu.")
-  else:
-      print("La lettre {} n'est pas valide.".format(letter))
+def valide(m,coord):
+    x,y = coord['x'], coord['y']
+    if x<0  or y<0 or x>=len(m) or y>=len(m[0]) :
+        return False
+    if m[x][y] == 1 :
+        return False
+    return True
+
+def update_p(letter, p,m):
+    if letter == "z":
+        p["x"] = p["x"] - 1
+        if not valide(m,p):
+            p["x"]= p["x"] +1
+    elif letter == "q":
+        p["y"] = p["y"]- 1
+        if not valide(m,p):
+            p["y"] = p["y"]+ 1
+    elif letter == "s":
+        p["x"] = p["x"] + 1
+        if not valide(m,p):
+            p["y"] = p["y"]- 1
+    elif letter == "d":
+        p["y"] = p["y"]+ 1
+        if not valide(m,p):
+            p["y"] = p["y"]- 1
+    elif letter =="r":
+        print("Vous avez arrêté le jeu.")
+    else:
+        print("La lettre {} n'est pas valide.".format(letter))
 
 display_map_and_char(6,6,(1,1))
