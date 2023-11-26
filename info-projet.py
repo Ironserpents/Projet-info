@@ -1,9 +1,9 @@
 from random import randint
 def genereMat(n,m):
     MAT=[[0 for j in range(m)]for i in range(n)]
-    for a in range(2):
+    for a in range(0,2):
         for i in range(1,len(MAT)):
-            j=randint(0,len(MAT[i-1]))
+            j=randint(0,len(MAT[i-2]))
             MAT[i][j-1]=1
     x=0
     #Apparition d objet
@@ -31,6 +31,8 @@ def voisinage(point) :
     return {(x+1,y),(x-1,y),(x,y+1),(x,y-1)}
 
 def test(m,e,s) :
+    if m[s[0]][s[1]]== 1:
+        return False
     cc = {e}
     voisins = {p for p in voisinage(e) if valide2(m,p)}
     while len(voisins)>0 :
@@ -43,17 +45,19 @@ def valide2(m,coord):
         return False
     if m[x][y] == 1 :
         return False
+    if m[x][y]== 3:
+        return False
     return True
 
 def create_perso(pos):
     (x,y)= pos
     return {"char":"o",'x':x, 'y':y}
 
-def display_map_and_char(l,la,perso):
-    letter,f="s",False
+
+def display_map_and_char(l,la,perso,a):
+    letter,f,="s",False
     while f==False:
         m=genereMat(l,la)
-        print(m)
         p=create_perso(perso)
         f=test(m,perso,(3,3))
     while letter !="r":
@@ -66,7 +70,14 @@ def display_map_and_char(l,la,perso):
             print()
         letter = input("Entrez une lettre (z, q, s, d): ")
         update_p(letter, p,m)
-    
+        if m[p['x']][p['y']] ==3:
+            print("Vous êtes tombé dans un trou")
+            break
+        if p['x']== 3 and p['y'] ==3:
+            print ("Vous avez réussis le niveau",a)
+            a=a+1
+            display_map_and_char(l,la,perso,a)
+            
 dico={0:' ',1:'#', 2:'B',3:'X'}
 
 def valide(m,coord):
@@ -89,7 +100,7 @@ def update_p(letter, p,m):
     elif letter == "s":
         p["x"] = p["x"] + 1
         if not valide(m,p):
-            p["y"] = p["y"]- 1
+            p["x"] = p["x"]- 1
     elif letter == "d":
         p["y"] = p["y"]+ 1
         if not valide(m,p):
@@ -98,5 +109,5 @@ def update_p(letter, p,m):
         print("Vous avez arrêté le jeu.")
     else:
         print("La lettre {} n'est pas valide.".format(letter))
-
-display_map_and_char(6,6,(1,1))
+a=1
+display_map_and_char(6,6,(1,1),a)
