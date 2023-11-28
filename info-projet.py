@@ -30,6 +30,7 @@ def genereMat(n,m):
 def voisinage(point) :
     x,y = point
     return {(x+1,y),(x-1,y),(x,y+1),(x,y-1)}
+    
 #vérification que la map peut se faire
 def test(m,e,s) :
     if m[s[0]][s[1]]== 1:
@@ -50,7 +51,7 @@ def valide2(m,coord):
     if m[x][y]== 3:
         return False
     return True
-
+#transforme les coordonnées du joueur en dictionnaire
 def create_perso(pos):
     (x,y)= pos
     return {"char":"o",'x':x, 'y':y}
@@ -58,12 +59,12 @@ def create_perso(pos):
 
 def display_map_char_and_objects(l,la,perso):
     a=1
-    while a!=4:
+    while a!=4: #mettre 3 niveaux dans le jeu
         letter,f,="s",False
         while f==False:
-            m=genereMat(l,la)
-            p=create_perso(perso)
-            f=test(m,perso,(3,3))
+            m=genereMat(l,la) #map aléatoire crée
+            p=create_perso(perso) #dictionnaire contenant les information du perso
+            f=test(m,perso,(3,3)) #vérifie si la map, la position du perso et de la sortie sont correct 
         while letter !="r":
             for i in range(len(m)):
                 for j in range(len(m[0])):
@@ -85,7 +86,7 @@ def display_map_char_and_objects(l,la,perso):
                 break
             
 dico={0:' ',1:'#', 2:'B',3:'X',4:'E'}
-
+#vérifie que les coordonnées envoyées sont possible 
 def valide(m,coord):
     x,y = coord['x'], coord['y']
     if x<0  or y<0 or x>=len(m) or y>=len(m[0]) :
@@ -93,11 +94,11 @@ def valide(m,coord):
     if m[x][y] == 1 :
         return False
     return True
-
+#mettre à jour la position du joueur
 def update_p(letter, p,m):
     if letter == "z":
         p["x"] = p["x"] - 1
-        if not valide(m,p):
+        if not valide(m,p): #mets pas à jour la position du joueur si condition pas remplit
             p["x"]= p["x"] +1
     elif letter == "q":
         p["y"] = p["y"]- 1
