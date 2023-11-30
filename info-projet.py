@@ -58,7 +58,12 @@ def create_perso(pos,o):
 
 
 def display_map_char_and_objects(l,la,perso):
+    r=input("Quel est votre nom ? :")
+    print( r," :Qu'est ce qui se passe? de la fumée...")
+    time.sleep(3)
+    print(r,":Le batiment prend feu, il faut sortir vite")
     a=4
+    n=time.time()
     while a!=-1:     
         letter,f,="s",False
         while f==False:
@@ -66,6 +71,14 @@ def display_map_char_and_objects(l,la,perso):
             p=create_perso(perso,0)
             f=test(m,perso,(3,3))
         while letter !="r":
+            if time.time()-n > 30:
+                print(r,": On non il y a du feu de partout.")
+                if p["objet"] >0:
+                    print(r,":Même avec l'extinteur je ne peux rien faire")
+                print(r,":Aieee, ca brûle !")
+                time.sleep(5)
+                print("Le batiment a totalement pris feu")
+                return
             for i in range(len(m)):
                 for j in range(len(m[0])):
                     if i == p['x'] and j == p['y']:
@@ -77,25 +90,29 @@ def display_map_char_and_objects(l,la,perso):
             update_p(letter, p,m)
             if m[p['x']][p['y']] ==2:
                 p["objet"]=p["objet"]+1
-                print("Vous avez ramassé un extincteur")
+                print(r,":Oh un extincteur, ca pourra me permmettre d'enlever un peu de feu")
                 m[p['x']][p['y']]=0
             if m[p['x']][p['y']] ==3:
                 if p["objet"]>0:
                     p["objet"]=p["objet"]-1
-                    print("Vous avez utilisé votre extincteur")
+                    print(r,": Autant utilisais un extincteur")
                     m[p['x']][p['y']]=0                    
                 else:
-                    print("Vous avez brûlé")
+                    print(r,":Aieee, ca brûle")
+                    time.sleep(3)
+                    print("Vous avez pris feu")
                     return
             if p['x']== 3 and p['y'] ==3:
                 if a==0:
-                   print("Vous avez survécu")
+                   print(r,":J'ai survécu !!!")
+                   time.sleep(2)
+                   print(r,": C'était juste")
                    a=a-1
                    break
                 else:
                     if p["objet"]>0:
                         print("Les escaliers que vous avez pris été trop fragile, vous avez enlevé vos extincteurs.")
-                    print ("Vous êtes à l'étage",a)
+                    print (r,":Aller, je suis à l'étage",a,"\n Je peux le faire")
                     a=a-1
                     break
             
@@ -129,4 +146,3 @@ def update_p(letter, p,m):
     else:
         print("La lettre {} n'est pas valide.".format(letter))
 display_map_char_and_objects(6,6,(1,1))
-
